@@ -1,6 +1,9 @@
 package model.adt;
 import exception.MyException;
 import exception.StackIsEmpty;
+import model.statement.CompoundStatement;
+import model.statement.IStatement;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,5 +25,27 @@ public class ExecutionStack<T> implements IExecutionStack<T> {
         List<T> list = new ArrayList<>(stack);
         Collections.reverse(list);
         return list;
+    }
+    public ExecutionStack() {this.stack = new Stack<>();}
+    ExecutionStack(Stack<T> stack) {this.stack = stack;}
+    @Override
+    public String fileToString(){
+        Stack<IStatement> newStack = (Stack<IStatement>) stack.clone();
+        ExecutionStack<IStatement> copy = new ExecutionStack<>(newStack);
+
+        StringBuilder result = new StringBuilder();
+        while(!copy.isEmpty()){
+            IStatement statement = copy.pop();
+            if(statement instanceof CompoundStatement){
+                IStatement first = ((CompoundStatement) statement).first();
+                IStatement second = ((CompoundStatement) statement).second();
+                copy.push(second);
+                copy.push(first);
+            }
+            else{
+                result.append(statement.toString()).append("\n");
+            }
+        }
+        return result.toString();
     }
 }

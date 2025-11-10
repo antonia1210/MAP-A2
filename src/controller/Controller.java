@@ -28,11 +28,11 @@ public class Controller implements IController {
     @Override
     public void allSteps() throws MyException {
         ProgramState programState = repository.getCurrentProgram();
-        repository.logProgramStateExecution();
-
+            repository.logProgramStateExecution();
         while(!programState.getExecutionStack().isEmpty()) {
             oneStep(programState);
-            repository.logProgramStateExecution();
+                repository.logProgramStateExecution();
         }
+            repository.logProgramStateExecution();
     }
 }
