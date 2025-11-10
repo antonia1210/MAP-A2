@@ -1,8 +1,9 @@
 package model.adt;
-import model.exception.MyException;
-import model.exception.StackIsEmpty;
-
-import java.util.EmptyStackException;
+import exception.MyException;
+import exception.StackIsEmpty;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 public class ExecutionStack<T> implements IExecutionStack<T> {
     private Stack<T> stack = new Stack<>();
@@ -17,4 +18,9 @@ public class ExecutionStack<T> implements IExecutionStack<T> {
     public boolean isEmpty() {return stack.isEmpty();}
     @Override
     public String toString() {return stack.toString();}
+    public List<T> getList() {
+        List<T> list = new ArrayList<>(stack);
+        Collections.reverse(list);
+        return list;
+    }
 }

@@ -1,6 +1,6 @@
 package model.adt;
 
-import model.exception.MyException;
+import exception.MyException;
 
 public interface ISymbolTable<K,V> {
     void put(K key, V value);

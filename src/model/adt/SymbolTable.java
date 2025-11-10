@@ -1,7 +1,7 @@
 package model.adt;
 
-import model.exception.MyException;
-import model.exception.VariableIsNotDefined;
+import exception.MyException;
+import exception.VariableIsNotDefined;
 
 import java.util.HashMap;
 
@@ -29,4 +29,5 @@ public class SymbolTable<K,V> implements ISymbolTable<K,V> {
     public String  toString() {
         return dictionary.toString();
     }
+    public HashMap<K,V> getAll() {return dictionary;}
 }

@@ -1,8 +1,7 @@
 package controller;
 
 import model.ProgramState;
-import model.exception.MyException;
-import model.exception.UnknownOperator;
+import exception.MyException;
 
 public interface IController {
     ProgramState oneStep(ProgramState programState) throws MyException;

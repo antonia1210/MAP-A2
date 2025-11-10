@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 public class VariableIsNotDefined extends MyException {
     public VariableIsNotDefined(String id) {

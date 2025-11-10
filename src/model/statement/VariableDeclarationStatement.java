@@ -1,32 +1,27 @@
 package model.statement;
 import model.ProgramState;
 import model.adt.SymbolTable;
-import model.exception.MyException;
-import model.exception.TypeNotFound;
-import model.exception.VariableAlreadyDefined;
-import model.exception.VariableIsNotDefined;
+import exception.MyException;
+import exception.VariableAlreadyDefined;
 import model.type.IType;
-import model.value.BoolValue;
-import model.value.IntValue;
 import model.value.IValue;
 
-public record VariableDeclarationStatement(String name, IType IType) implements IStatement {
+public record VariableDeclarationStatement(String name, IType type) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programstate) throws MyException {
         SymbolTable<String, IValue> symbolTable = programstate.getSymbolTable();
         if (symbolTable.isDefined(name)) {
             throw new VariableAlreadyDefined(name);
         }
-        IValue defaultIValue = switch (IType.toString()) {
-            case "int" -> new IntValue(0);
-            case "bool" -> new BoolValue(false);
-            default -> throw new TypeNotFound();
-        };
-        symbolTable.put(name, defaultIValue);
+        symbolTable.put(name, type.defaultValue());
         return programstate;
     }
     @Override
+    public IStatement deepCopy(){
+        return new VariableDeclarationStatement(name, type.deepCopy());
+    }
+    @Override
     public String toString() {
-        return IType.toString() + " " + name;
+        return type.toString() + " " + name;
     }
 }

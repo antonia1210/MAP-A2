@@ -4,7 +4,7 @@ import model.type.BoolType;
 import model.type.IType;
 
 public class BoolValue implements IValue {
-    public boolean value;
+    private final boolean value;
     public BoolValue(boolean value){
         this.value = value;
     }
@@ -14,5 +14,13 @@ public class BoolValue implements IValue {
     @Override
     public String toString(){
         return Boolean.toString(value);
+    }
+    @Override
+    public boolean equals(Object another) {
+        return another instanceof BoolValue bv && value == bv.value;
+    }
+    @Override
+    public IValue deepCopy() {
+        return new BoolValue(value);
     }
 }

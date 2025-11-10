@@ -12,4 +12,5 @@ public class Out<T> implements IOut<T> {
     public String toString() {
         return list.toString();
     }
+    public ArrayList<T> getList(){return list;}
 }

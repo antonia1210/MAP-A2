@@ -2,7 +2,7 @@ package controller;
 
 import model.ProgramState;
 import model.adt.ExecutionStack;
-import model.exception.MyException;
+import exception.MyException;
 import model.statement.IStatement;
 import repository.IRepository;
 
@@ -28,17 +28,11 @@ public class Controller implements IController {
     @Override
     public void allSteps() throws MyException {
         ProgramState programState = repository.getCurrentProgram();
-        if(displayFlag) {
-            System.out.println(programState.toString());
-        }
+        repository.logProgramStateExecution();
+
         while(!programState.getExecutionStack().isEmpty()) {
             oneStep(programState);
-            if(displayFlag) {
-                System.out.println(programState.toString());
-            }
-        }
-        if(!displayFlag) {
-            System.out.println(programState.toString());
+            repository.logProgramStateExecution();
         }
     }
 }

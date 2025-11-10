@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 public class VariableAlreadyDefined extends MyException {
     public VariableAlreadyDefined(String id) {

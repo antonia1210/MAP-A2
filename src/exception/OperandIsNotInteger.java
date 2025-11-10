@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 public class OperandIsNotInteger extends MyException {
     public OperandIsNotInteger() {

@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 public class OperandIsNotBoolean extends MyException {
     public OperandIsNotBoolean() {

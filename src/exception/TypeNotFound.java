@@ -1,4 +1,4 @@
-package model.exception;
+package exception;
 
 public class TypeNotFound extends MyException {
     public TypeNotFound() {

@@ -1,6 +1,6 @@
 package model.adt;
 
-import model.exception.MyException;
+import exception.MyException;
 
 public interface IExecutionStack<T> {
     void push(T element);

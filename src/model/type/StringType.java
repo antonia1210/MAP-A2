@@ -1,23 +1,22 @@
 package model.type;
-
-import model.value.BoolValue;
 import model.value.IValue;
+import model.value.StringValue;
 
-public class BoolType implements IType {
+public class StringType implements IType {
     @Override
     public boolean equals(Object other) {
-        return other instanceof BoolType;
+        return other instanceof StringType;
     }
     @Override
     public String toString(){
-        return "bool";
+        return "string";
     }
     @Override
     public IValue defaultValue() {
-        return new BoolValue(false);
+        return new StringValue("");
     }
     @Override
     public IType deepCopy() {
-        return new BoolType();
+        return new StringType();
     }
 }

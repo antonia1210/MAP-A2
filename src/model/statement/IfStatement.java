@@ -3,8 +3,8 @@ package model.statement;
 import model.adt.ExecutionStack;
 import model.ProgramState;
 import model.adt.SymbolTable;
-import model.exception.MyException;
-import model.exception.UnknownOperator;
+import exception.MyException;
+import exception.UnknownOperator;
 import model.expression.IExpression;
 import model.type.BoolType;
 import model.value.BoolValue;
@@ -26,6 +26,10 @@ public record IfStatement(IExpression condition, IStatement thenStatement, IStat
             executionStack.push(elseStatement);
         }
         return programState;
+    }
+    @Override
+    public IStatement deepCopy() {
+        return new IfStatement(condition.deepCopy(), thenStatement.deepCopy(), elseStatement);
     }
     @Override
     public String toString() {
