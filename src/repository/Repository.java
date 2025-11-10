@@ -33,9 +33,6 @@ public class Repository implements IRepository {
         ProgramState programState = getCurrentProgram();
         try(PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath,true)))){
             logFile.println("Execution Stack:");
-           // for (var statement : programState.getExecutionStack().getList()) {
-              //  logFile.println(statement.toString());
-           // }
             logFile.println(programState.getExecutionStack().fileToString());
             logFile.println("Symbol Table:");
             programState.getSymbolTable().getAll().forEach((var,v)->logFile.println(var + "-->" + v));
