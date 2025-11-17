@@ -27,7 +27,7 @@ public class ExecutionStack<T> implements IExecutionStack<T> {
         return list;
     }
     public ExecutionStack() {this.stack = new Stack<>();}
-    ExecutionStack(Stack<T> stack) {this.stack = stack;}
+    public ExecutionStack(Stack<T> stack) {this.stack = stack;}
     @Override
     public String fileToString(){
         Stack<IStatement> newStack = (Stack<IStatement>) stack.clone();

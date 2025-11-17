@@ -40,6 +40,8 @@ public class Repository implements IRepository {
             programState.getOut().getList().forEach(val -> logFile.println(val.toString()));
             logFile.println("File Table:");
             programState.getFileTable().getTable().forEach((fileName, br) -> logFile.println(fileName.toString()));
+            logFile.println("Heap:");
+            programState.getHeap().getAll().forEach((address,value) -> logFile.println(address + "-->" + value));
             logFile.println("---------------------------------------------------");
             logFile.println();
         }

@@ -1,9 +1,6 @@
 package model;
 
-import model.adt.ExecutionStack;
-import model.adt.FileTable;
-import model.adt.Out;
-import model.adt.SymbolTable;
+import model.adt.*;
 import model.statement.IStatement;
 import model.value.IValue;
 
@@ -14,13 +11,15 @@ public class ProgramState {
     private SymbolTable<String, IValue> symbolTable;
     private Out<IValue> out;
     private FileTable<IValue, BufferedReader> fileTable;
+    private Heap heap;
     private IStatement originalProgram;
 
-    public ProgramState(FileTable<IValue, BufferedReader> fileTable, ExecutionStack<IStatement> executionStack, SymbolTable<String, IValue> symbolTable, Out<IValue> out, IStatement originalProgram) {
+    public ProgramState(Heap heap, FileTable<IValue, BufferedReader> fileTable, ExecutionStack<IStatement> executionStack, SymbolTable<String, IValue> symbolTable, Out<IValue> out, IStatement originalProgram) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.out = out;
         this.fileTable = fileTable;
+        this.heap = heap;
         this.originalProgram = originalProgram.deepCopy();
         executionStack.push(originalProgram);
     }
@@ -36,6 +35,7 @@ public class ProgramState {
     public FileTable<IValue, BufferedReader> getFileTable() {
         return fileTable;
     }
+    public Heap getHeap() { return  heap; }
     @Override
     public String toString() {
         return "ProgramState\n" +

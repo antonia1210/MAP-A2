@@ -2,6 +2,7 @@ package model.statement;
 
 import model.adt.ExecutionStack;
 import model.ProgramState;
+import model.adt.Heap;
 import model.adt.SymbolTable;
 import exception.MyException;
 import exception.UnknownOperator;
@@ -15,7 +16,8 @@ public record IfStatement(IExpression condition, IStatement thenStatement, IStat
     public ProgramState execute(ProgramState programState) throws MyException {
         SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
         ExecutionStack<IStatement> executionStack = programState.getExecutionStack();
-        IValue conditionIValue = condition.evaluate(symbolTable);
+        Heap heap = programState.getHeap();
+        IValue conditionIValue = condition.evaluate(symbolTable, heap);
         if(!conditionIValue.getType().equals(new BoolType())) {
             throw new UnknownOperator();
         }

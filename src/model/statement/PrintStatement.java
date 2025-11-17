@@ -12,7 +12,7 @@ public record PrintStatement(IExpression expression) implements IStatement {
     public ProgramState execute(ProgramState programState) throws MyException {
         SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
         Out<IValue> out = programState.getOut();
-        IValue val = expression.evaluate(symbolTable);
+        IValue val = expression.evaluate(symbolTable, programState.getHeap());
         out.add(val);
         return programState;
     }

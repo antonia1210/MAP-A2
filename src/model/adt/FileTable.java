@@ -1,5 +1,6 @@
 package model.adt;
 
+import exception.FileDoesNotExist;
 import exception.MyException;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class FileTable<K,V> implements IFileTable<K,V> {
     @Override
     public void remove(K key) throws MyException {
         if (!table.containsKey(key)) {
-            throw new MyException("File does not exist");
+            throw new FileDoesNotExist(key.toString());
         }
         table.remove(key);
     }
@@ -31,7 +32,7 @@ public class FileTable<K,V> implements IFileTable<K,V> {
     @Override
     public V lookup(K key) throws MyException {
         if (!table.containsKey(key)) {
-            throw new MyException("File does not exist");
+            throw new FileDoesNotExist(key.toString());
         }
         return table.get(key);
     }

@@ -1,6 +1,7 @@
 package model.statement;
 
 import model.ProgramState;
+import model.adt.Heap;
 import model.adt.SymbolTable;
 import exception.MyException;
 import exception.TypeNotFound;
@@ -14,10 +15,11 @@ public record AssignmentStatement(String id, IExpression expression) implements 
     @Override
     public ProgramState execute(ProgramState programState) throws MyException{
         SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
+        Heap heap = programState.getHeap();
         if (!symbolTable.isDefined(id)) {
             throw new VariableIsNotDefined(id);
         }
-        IValue IValue = expression.evaluate(symbolTable);
+        IValue IValue = expression.evaluate(symbolTable, heap);
         IType ITypeId = (symbolTable.lookup(id)).getType();
 
         if (IValue.getType().equals(ITypeId))

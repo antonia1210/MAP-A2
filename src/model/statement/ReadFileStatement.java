@@ -3,6 +3,7 @@ package model.statement;
 import exception.*;
 import model.ProgramState;
 import model.adt.FileTable;
+import model.adt.Heap;
 import model.adt.SymbolTable;
 import model.expression.IExpression;
 import model.type.IntType;
@@ -18,13 +19,14 @@ public record ReadFileStatement(IExpression expression, String variable_name) im
     public ProgramState execute(ProgramState state) throws MyException {
         SymbolTable<String, IValue> symbolTable = state.getSymbolTable();
         FileTable<IValue, BufferedReader> fileTable = state.getFileTable();
+        Heap heap = state.getHeap();
         if(!symbolTable.isDefined(variable_name)){
             throw new VariableIsNotDefined(variable_name);
         }
         if(!symbolTable.lookup(variable_name).getType().equals(new IntType())){
             throw new OperandIsNotInteger();
         }
-        IValue expressionValue = expression.evaluate(symbolTable);
+        IValue expressionValue = expression.evaluate(symbolTable, heap);
         if(!(expressionValue.getType().equals(new StringType()))){
             throw new ExpressionIsNotString();
         }

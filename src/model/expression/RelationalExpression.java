@@ -1,5 +1,6 @@
 package model.expression;
 
+import model.adt.Heap;
 import model.adt.SymbolTable;
 import exception.MyException;
 import exception.OperandIsNotInteger;
@@ -11,12 +12,12 @@ import model.value.IntValue;
 
 public record RelationalExpression(IExpression left, IExpression right, String operator) implements IExpression {
     @Override
-    public IValue evaluate(SymbolTable<String,IValue> symbolTable) throws MyException{
-        IValue leftValue = left.evaluate(symbolTable);
+    public IValue evaluate(SymbolTable<String,IValue> symbolTable, Heap heap) throws MyException{
+        IValue leftValue = left.evaluate(symbolTable, heap);
         if(!leftValue.getType().equals(new IntType())){
             throw new OperandIsNotInteger();
         }
-        IValue rightValue = right.evaluate(symbolTable);
+        IValue rightValue = right.evaluate(symbolTable, heap);
         if(!rightValue.getType().equals(new IntType())){
             throw new OperandIsNotInteger();
         }

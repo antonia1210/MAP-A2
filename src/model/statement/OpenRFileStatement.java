@@ -19,7 +19,7 @@ public record OpenRFileStatement(IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
         FileTable<IValue, BufferedReader> fileTable = programState.getFileTable();
-        IValue value = expression.evaluate(programState.getSymbolTable());
+        IValue value = expression.evaluate(programState.getSymbolTable(), programState.getHeap());
         if (!value.getType().equals(new StringType())){
             throw new ExpressionIsNotString();
         }

@@ -4,6 +4,7 @@ import exception.ExpressionIsNotString;
 import exception.FileDoesNotExist;
 import model.ProgramState;
 import model.adt.FileTable;
+import model.adt.Heap;
 import model.adt.SymbolTable;
 import exception.MyException;
 import model.expression.IExpression;
@@ -17,7 +18,8 @@ public record CloseRFileStatement(IExpression expression) implements IStatement 
     public ProgramState execute(ProgramState state) throws MyException {
         FileTable<IValue, BufferedReader> fileTable = state.getFileTable();
         SymbolTable<String, IValue> symbolTable = state.getSymbolTable();
-        IValue value = expression.evaluate(symbolTable);
+        Heap heap = state.getHeap();
+        IValue value = expression.evaluate(symbolTable, heap);
         if(!value.getType().equals(new StringType())){
             throw new ExpressionIsNotString();
         }
