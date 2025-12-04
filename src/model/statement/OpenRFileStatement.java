@@ -4,7 +4,7 @@ import exception.ExpressionIsNotString;
 import exception.FileAlreadyOpened;
 import exception.FileDoesNotExist;
 import model.ProgramState;
-import model.adt.FileTable;
+import model.adt.IFileTable;
 import exception.MyException;
 import model.expression.IExpression;
 import model.type.StringType;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public record OpenRFileStatement(IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        FileTable<IValue, BufferedReader> fileTable = programState.getFileTable();
+        IFileTable<IValue, BufferedReader> fileTable = programState.getFileTable();
         IValue value = expression.evaluate(programState.getSymbolTable(), programState.getHeap());
         if (!value.getType().equals(new StringType())){
             throw new ExpressionIsNotString();
@@ -34,7 +34,7 @@ public record OpenRFileStatement(IExpression expression) implements IStatement {
         catch(IOException e){
             throw new FileDoesNotExist(filename);
         }
-        return programState;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

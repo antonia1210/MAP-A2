@@ -1,8 +1,8 @@
 package model.statement;
 
 import model.ProgramState;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.TypeNotFound;
 import exception.VariableIsNotDefined;
@@ -14,8 +14,8 @@ import model.value.IValue;
 public record AssignmentStatement(String id, IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException{
-        SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
-        Heap heap = programState.getHeap();
+        ISymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
+        IHeap heap = programState.getHeap();
         if (!symbolTable.isDefined(id)) {
             throw new VariableIsNotDefined(id);
         }
@@ -25,7 +25,7 @@ public record AssignmentStatement(String id, IExpression expression) implements 
         if (IValue.getType().equals(ITypeId))
             symbolTable.update(id, IValue);
         else throw new TypeNotFound();
-        return programState;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

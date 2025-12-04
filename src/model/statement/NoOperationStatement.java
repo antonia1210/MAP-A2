@@ -6,7 +6,7 @@ import exception.MyException;
 public record NoOperationStatement() implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        return programState;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

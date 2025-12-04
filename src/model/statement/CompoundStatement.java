@@ -1,6 +1,6 @@
 package model.statement;
 
-import model.adt.ExecutionStack;
+import model.adt.IExecutionStack;
 import model.ProgramState;
 import exception.MyException;
 
@@ -15,9 +15,9 @@ public record CompoundStatement(IStatement first, IStatement second) implements 
     }
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        ExecutionStack<IStatement> executionStack = programState.getExecutionStack();
+        IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
         executionStack.push(second);
         executionStack.push(first);
-        return programState;
+        return null;
     }
 }

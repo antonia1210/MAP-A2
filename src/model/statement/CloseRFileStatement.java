@@ -3,9 +3,7 @@ package model.statement;
 import exception.ExpressionIsNotString;
 import exception.FileDoesNotExist;
 import model.ProgramState;
-import model.adt.FileTable;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.*;
 import exception.MyException;
 import model.expression.IExpression;
 import model.type.StringType;
@@ -16,9 +14,9 @@ import java.io.IOException;
 public record CloseRFileStatement(IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
-        FileTable<IValue, BufferedReader> fileTable = state.getFileTable();
-        SymbolTable<String, IValue> symbolTable = state.getSymbolTable();
-        Heap heap = state.getHeap();
+        IFileTable<IValue, BufferedReader> fileTable = state.getFileTable();
+        ISymbolTable<String, IValue> symbolTable = state.getSymbolTable();
+        IHeap heap = state.getHeap();
         IValue value = expression.evaluate(symbolTable, heap);
         if(!value.getType().equals(new StringType())){
             throw new ExpressionIsNotString();
@@ -33,7 +31,7 @@ public record CloseRFileStatement(IExpression expression) implements IStatement 
             throw new MyException(e.getMessage());
         }
         fileTable.remove(value);
-        return state;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

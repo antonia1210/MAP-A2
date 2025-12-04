@@ -4,7 +4,7 @@ import exception.MyException;
 import exception.OperandIsNotBoolean;
 import exception.OperandIsNotInteger;
 import model.ProgramState;
-import model.adt.ExecutionStack;
+import model.adt.IExecutionStack;
 import model.expression.IExpression;
 import model.type.BoolType;
 import model.value.BoolValue;
@@ -17,7 +17,7 @@ public record WhileStatement(IExpression condition, IStatement statement) implem
         if(!value.getType().equals(new BoolType()))
             throw new OperandIsNotBoolean();
         BoolValue boolValue = (BoolValue) value;
-        ExecutionStack<IStatement> stack = state.getExecutionStack();
+        IExecutionStack<IStatement> stack = state.getExecutionStack();
         if(boolValue.getValue()){
             stack.push(this);
             stack.push(statement);

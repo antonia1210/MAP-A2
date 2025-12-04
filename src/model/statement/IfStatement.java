@@ -1,9 +1,9 @@
 package model.statement;
 
-import model.adt.ExecutionStack;
+import model.adt.IExecutionStack;
 import model.ProgramState;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.UnknownOperator;
 import model.expression.IExpression;
@@ -14,9 +14,9 @@ import model.value.IValue;
 public record IfStatement(IExpression condition, IStatement thenStatement, IStatement elseStatement) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
-        ExecutionStack<IStatement> executionStack = programState.getExecutionStack();
-        Heap heap = programState.getHeap();
+        ISymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
+        IExecutionStack<IStatement> executionStack = programState.getExecutionStack();
+        IHeap heap = programState.getHeap();
         IValue conditionIValue = condition.evaluate(symbolTable, heap);
         if(!conditionIValue.getType().equals(new BoolType())) {
             throw new UnknownOperator();

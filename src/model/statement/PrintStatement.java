@@ -1,8 +1,8 @@
 package model.statement;
 
-import model.adt.Out;
+import model.adt.IOut;
 import model.ProgramState;
-import model.adt.SymbolTable;
+import model.adt.ISymbolTable;
 import exception.MyException;
 import model.value.IValue;
 import model.expression.IExpression;
@@ -10,11 +10,11 @@ import model.expression.IExpression;
 public record PrintStatement(IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState programState) throws MyException {
-        SymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
-        Out<IValue> out = programState.getOut();
+        ISymbolTable<String, IValue> symbolTable = programState.getSymbolTable();
+        IOut<IValue> out = programState.getOut();
         IValue val = expression.evaluate(symbolTable, programState.getHeap());
         out.add(val);
-        return programState;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

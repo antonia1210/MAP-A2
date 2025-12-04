@@ -2,9 +2,9 @@ package model.statement;
 
 import exception.*;
 import model.ProgramState;
-import model.adt.FileTable;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IFileTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import model.expression.IExpression;
 import model.type.IntType;
 import model.type.StringType;
@@ -17,9 +17,9 @@ import java.io.IOException;
 public record ReadFileStatement(IExpression expression, String variable_name) implements IStatement {
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
-        SymbolTable<String, IValue> symbolTable = state.getSymbolTable();
-        FileTable<IValue, BufferedReader> fileTable = state.getFileTable();
-        Heap heap = state.getHeap();
+        ISymbolTable<String, IValue> symbolTable = state.getSymbolTable();
+        IFileTable<IValue, BufferedReader> fileTable = state.getFileTable();
+        IHeap heap = state.getHeap();
         if(!symbolTable.isDefined(variable_name)){
             throw new VariableIsNotDefined(variable_name);
         }
@@ -49,7 +49,7 @@ public record ReadFileStatement(IExpression expression, String variable_name) im
             throw new MyException(e.getMessage());
         }
         symbolTable.update(variable_name,new IntValue(intValue));
-        return state;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

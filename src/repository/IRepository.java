@@ -2,8 +2,11 @@ package repository;
 import model.ProgramState;
 import exception.MyException;
 
+import java.util.List;
+
 public interface IRepository{
-ProgramState getCurrentProgram() throws MyException;
 void addProgram(ProgramState program);
-void logProgramStateExecution() throws MyException;
+void logProgramStateExecution(ProgramState state) throws MyException;
+List<ProgramState> getProgramList() throws MyException;
+void setProgramList(List<ProgramState> programList);
 }

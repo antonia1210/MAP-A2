@@ -22,16 +22,9 @@ public class Repository implements IRepository {
         this.programStates.add(program);
     }
     @Override
-    public ProgramState getCurrentProgram() throws MyException{
-        if (programStates.isEmpty()) {
-            throw new MyException("No program state available in the list");
-        }
-        return programStates.get(0);
-    }
-    @Override
-    public void logProgramStateExecution() throws MyException{
-        ProgramState programState = getCurrentProgram();
+    public void logProgramStateExecution(ProgramState programState) throws MyException{
         try(PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath,true)))){
+            logFile.println("ID " + programState.getId());
             logFile.println("Execution Stack:");
             logFile.println(programState.getExecutionStack().fileToString());
             logFile.println("Symbol Table:");
@@ -48,6 +41,18 @@ public class Repository implements IRepository {
         catch (IOException e){
             throw new MyException(e.getMessage());
         }
-
     }
+    @Override
+    public List<ProgramState> getProgramList() throws MyException{
+        if (programStates.isEmpty()) {
+            throw new MyException("No program state available in the list");
+        }
+        return  programStates;
+    }
+    @Override
+    public void setProgramList(List<ProgramState> programList) {
+        this.programStates.clear();
+        this.programStates.addAll(programList);
+    }
+
 }

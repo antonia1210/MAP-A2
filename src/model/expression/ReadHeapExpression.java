@@ -3,14 +3,14 @@ package model.expression;
 import exception.InvalidHeapAddress;
 import exception.MyException;
 import exception.VariableNotRefType;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import model.value.IValue;
 import model.value.RefValue;
 
 public record ReadHeapExpression(IExpression expression) implements IExpression {
     @Override
-    public IValue evaluate(SymbolTable<String,IValue> symbolTable, Heap heap) throws MyException{
+    public IValue evaluate(ISymbolTable<String,IValue> symbolTable, IHeap heap) throws MyException{
         IValue value = expression.evaluate(symbolTable, heap);
         if(!(value instanceof RefValue))
             throw new VariableNotRefType(value.toString());

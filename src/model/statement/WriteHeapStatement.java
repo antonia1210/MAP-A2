@@ -2,8 +2,8 @@ package model.statement;
 
 import exception.*;
 import model.ProgramState;
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import model.expression.IExpression;
 import model.type.IType;
 import model.value.IValue;
@@ -12,8 +12,8 @@ import model.value.RefValue;
 public record WriteHeapStatement(String variableName, IExpression expression) implements IStatement {
     @Override
     public ProgramState execute(ProgramState state) throws MyException {
-        SymbolTable<String, IValue> symbolTable = state.getSymbolTable();
-        Heap heap = state.getHeap();
+        ISymbolTable<String, IValue> symbolTable = state.getSymbolTable();
+        IHeap heap = state.getHeap();
         if(!symbolTable.isDefined(variableName))
             throw new VariableIsNotDefined(variableName);
         IValue variableValue = symbolTable.lookup(variableName);
@@ -28,7 +28,7 @@ public record WriteHeapStatement(String variableName, IExpression expression) im
         if(!evaluated_value.getType().equals(locationType))
             throw new TypeMismatch(variableName, locationType.toString(), evaluated_value.getType().toString());
         heap.put(address, evaluated_value);
-        return state;
+        return null;
     }
     @Override
     public IStatement deepCopy() {

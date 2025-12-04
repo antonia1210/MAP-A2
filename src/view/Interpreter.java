@@ -1,5 +1,7 @@
 package view;
 
+import com.sun.jdi.Value;
+import com.sun.source.tree.CompilationUnitTree;
 import controller.Controller;
 import model.ProgramState;
 import model.adt.*;
@@ -8,6 +10,9 @@ import model.statement.*;
 import model.type.*;
 import model.value.*;
 import repository.Repository;
+
+import javax.swing.plaf.ComponentUI;
+import java.util.concurrent.CountDownLatch;
 
 public class Interpreter {
     public static void main(String[] args) {
@@ -184,6 +189,40 @@ public class Interpreter {
         Repository repo8 = new Repository("log8.txt");
         repo8.addProgram(prg8);
         Controller ctr8 = new Controller(repo8);
+        IStatement ex9 = new CompoundStatement(
+                new VariableDeclarationStatement("v", new IntType()),
+                new CompoundStatement(
+                        new VariableDeclarationStatement("a", new RefType(new IntType())),
+                        new CompoundStatement(
+                                new AssignmentStatement("v", new ValueExpression(new IntValue(10))),
+                                new CompoundStatement(
+                                        new NewStatement("a", new ValueExpression(new IntValue(22))),
+                                        new CompoundStatement(
+                                                new ForkStatement(
+                                                        new CompoundStatement(
+                                                                new WriteHeapStatement("a", new ValueExpression(new IntValue(30))),
+                                                                new CompoundStatement(
+                                                                        new AssignmentStatement("v", new ValueExpression(new IntValue(32))),
+                                                                        new CompoundStatement(
+                                                                                new PrintStatement(new VariableExpression("v")),
+                                                                                new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
+                                                                        )
+                                                                )
+                                                        )
+                                                ),
+                                                new CompoundStatement(
+                                                        new PrintStatement(new VariableExpression("v")),
+                                                        new PrintStatement(new ReadHeapExpression(new VariableExpression("a")))
+                                                )
+                                        )
+                                )
+                        )
+                )
+        );
+        ProgramState prg9 = new ProgramState(new Heap(), new FileTable<>(), new ExecutionStack<>(), new SymbolTable<>(), new Out<>(), ex9);
+        Repository repo9 = new Repository("log9.txt");
+        repo9.addProgram(prg9);
+        Controller ctr9 = new Controller(repo9);
         TextMenu menu = new TextMenu();
         menu.addCommand(new ExitCommand("0", "Exit"));
         menu.addCommand(new RunExample("1", ex1.toString(), ctr1));
@@ -194,6 +233,7 @@ public class Interpreter {
         menu.addCommand(new RunExample("6", ex6.toString(), ctr6));
         menu.addCommand(new RunExample("7", ex7.toString(), ctr7));
         menu.addCommand(new RunExample("8", ex8.toString(), ctr8));
+        menu.addCommand(new RunExample("9", ex9.toString(), ctr9));
         menu.show();
     }
 }

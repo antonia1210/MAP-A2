@@ -6,7 +6,13 @@ import exception.VariableIsNotDefined;
 import java.util.HashMap;
 
 public class SymbolTable<K,V> implements ISymbolTable<K,V> {
-    private HashMap<K,V> dictionary = new HashMap<K,V>();
+    private HashMap<K,V> dictionary;
+    public SymbolTable() {
+        this.dictionary = new HashMap<>();
+    }
+    public SymbolTable(HashMap<K,V> dictionary) {
+        this.dictionary = dictionary;
+    }
     @Override
     public void put(K key, V value) {
         dictionary.put(key, value);
@@ -29,5 +35,14 @@ public class SymbolTable<K,V> implements ISymbolTable<K,V> {
     public String  toString() {
         return dictionary.toString();
     }
+    @Override
     public HashMap<K,V> getAll() {return dictionary;}
+    @Override
+    public ISymbolTable<K,V> deepCopy() {
+        HashMap<K,V> newDictionary = new HashMap<>();
+        for(K key : dictionary.keySet()){
+            newDictionary.put(key,dictionary.get(key));
+        }
+        return new SymbolTable<>(newDictionary);
+    }
 }

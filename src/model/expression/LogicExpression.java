@@ -1,7 +1,7 @@
 package model.expression;
 
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.OperandIsNotBoolean;
 import exception.UnknownOperator;
@@ -11,7 +11,7 @@ import model.value.BoolValue;
 
 public record LogicExpression(IExpression e1, IExpression e2, String operation) implements IExpression {
     @Override
-    public IValue evaluate(SymbolTable<String, IValue> symbolTable, Heap heap) throws MyException {
+    public IValue evaluate(ISymbolTable<String, IValue> symbolTable, IHeap heap) throws MyException {
         IValue v1 = e1.evaluate(symbolTable, heap);
         if(!v1.getType().equals(new BoolType())) {
             throw new OperandIsNotBoolean();

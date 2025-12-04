@@ -1,7 +1,7 @@
 package model.expression;
 
-import model.adt.Heap;
-import model.adt.SymbolTable;
+import model.adt.IHeap;
+import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.OperandIsNotInteger;
 import exception.UnknownOperator;
@@ -12,7 +12,7 @@ import model.value.IntValue;
 
 public record RelationalExpression(IExpression left, IExpression right, String operator) implements IExpression {
     @Override
-    public IValue evaluate(SymbolTable<String,IValue> symbolTable, Heap heap) throws MyException{
+    public IValue evaluate(ISymbolTable<String,IValue> symbolTable, IHeap heap) throws MyException{
         IValue leftValue = left.evaluate(symbolTable, heap);
         if(!leftValue.getType().equals(new IntType())){
             throw new OperandIsNotInteger();
