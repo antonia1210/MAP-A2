@@ -6,6 +6,7 @@ import exception.DivisionByZero;
 import exception.MyException;
 import exception.OperandIsNotInteger;
 import exception.UnknownOperator;
+import model.type.IType;
 import model.type.IntType;
 import model.value.IntValue;
 import model.value.IValue;
@@ -41,5 +42,18 @@ public record ArithmeticExpression(IExpression e1, IExpression e2, char operatio
     @Override
     public String toString() {
         return e1 + " " +  operation + " " + e2;
+    }
+    @Override
+    public IType typeCheck(ISymbolTable<String, IType> typeTable) throws MyException{
+        IType type1, type2;
+        type1 = e1.typeCheck(typeTable);
+        type2 = e2.typeCheck(typeTable);
+        if(type1.equals(new IntType())){
+            if(type2.equals(new IntType())){
+                return new IntType();
+            }
+            else throw new OperandIsNotInteger();
+        }
+        else throw new OperandIsNotInteger();
     }
 }

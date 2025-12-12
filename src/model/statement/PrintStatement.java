@@ -4,6 +4,7 @@ import model.adt.IOut;
 import model.ProgramState;
 import model.adt.ISymbolTable;
 import exception.MyException;
+import model.type.IType;
 import model.value.IValue;
 import model.expression.IExpression;
 
@@ -23,5 +24,10 @@ public record PrintStatement(IExpression expression) implements IStatement {
     @Override
     public String toString(){
         return "print("+ expression.toString()+")";
+    }
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        expression.typeCheck(typeTable);
+        return typeTable;
     }
 }

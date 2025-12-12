@@ -1,5 +1,6 @@
 package model.statement;
 
+import exception.TypeMismatch;
 import model.ProgramState;
 import model.adt.IHeap;
 import model.adt.ISymbolTable;
@@ -31,9 +32,18 @@ public record AssignmentStatement(String id, IExpression expression) implements 
     public IStatement deepCopy() {
         return new AssignmentStatement(id, expression.deepCopy());
     }
-
     @Override
     public String toString() {
         return id + " = " + expression.toString();
+    }
+
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType typeVar = typeTable.lookup(id);
+        IType typeExp = expression.typeCheck(typeTable);
+        if (typeVar.equals(typeExp)) {
+            return typeTable;
+        }
+        else throw new MyException("Assignment statement type mismatch");
     }
 }

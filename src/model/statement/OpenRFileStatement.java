@@ -6,7 +6,9 @@ import exception.FileDoesNotExist;
 import model.ProgramState;
 import model.adt.IFileTable;
 import exception.MyException;
+import model.adt.ISymbolTable;
 import model.expression.IExpression;
+import model.type.IType;
 import model.type.StringType;
 import model.value.IValue;
 import model.value.StringValue;
@@ -43,5 +45,13 @@ public record OpenRFileStatement(IExpression expression) implements IStatement {
     @Override
     public String toString(){
         return "Open file " + expression.toString();
+    }
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType expressionType = expression.typeCheck(typeTable);
+        if(!expressionType.equals(new StringType())){
+            throw new ExpressionIsNotString();
+        }
+        return typeTable;
     }
 }

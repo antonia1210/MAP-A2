@@ -24,4 +24,10 @@ public record VariableDeclarationStatement(String name, IType type) implements I
     public String toString() {
         return type.toString() + " " + name;
     }
+
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        typeTable.put(name, type);
+        return typeTable;
+    }
 }

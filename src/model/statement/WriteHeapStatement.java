@@ -6,6 +6,8 @@ import model.adt.IHeap;
 import model.adt.ISymbolTable;
 import model.expression.IExpression;
 import model.type.IType;
+import model.type.RefType;
+import model.type.StringType;
 import model.value.IValue;
 import model.value.RefValue;
 
@@ -37,5 +39,16 @@ public record WriteHeapStatement(String variableName, IExpression expression) im
     @Override
     public String toString() {
         return "Write Heap " + variableName + " " + expression;
+    }
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType variableType = typeTable.lookup(variableName);
+        IType expressionType = expression.typeCheck(typeTable);
+        if(!(variableType instanceof RefType refType)){
+            throw new MyException(variableName + " is not a RefType");
+        }
+        if(!expressionType.equals(refType.getInner()))
+            throw new TypeMismatch(variableName, expressionType.toString(), refType.getInner().toString());
+        return typeTable;
     }
 }

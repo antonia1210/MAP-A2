@@ -8,6 +8,7 @@ import exception.MyException;
 import exception.UnknownOperator;
 import model.expression.IExpression;
 import model.type.BoolType;
+import model.type.IType;
 import model.value.BoolValue;
 import model.value.IValue;
 
@@ -36,5 +37,16 @@ public record IfStatement(IExpression condition, IStatement thenStatement, IStat
     @Override
     public String toString() {
         return "if(" + condition + ") then(" + thenStatement + ") else(" + elseStatement + ")";
+    }
+
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType conditionType = condition.typeCheck(typeTable);
+        if(conditionType.equals(new BoolType())){
+            thenStatement.typeCheck(typeTable.deepCopy());
+            elseStatement.typeCheck(typeTable.deepCopy());
+            return typeTable;
+        }
+        else throw new MyException("Condition of IF is not boolean");
     }
 }

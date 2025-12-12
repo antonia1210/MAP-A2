@@ -6,6 +6,7 @@ import exception.MyException;
 import exception.OperandIsNotBoolean;
 import exception.UnknownOperator;
 import model.type.BoolType;
+import model.type.IType;
 import model.value.IValue;
 import model.value.BoolValue;
 
@@ -35,5 +36,17 @@ public record LogicExpression(IExpression e1, IExpression e2, String operation) 
     @Override
     public String toString() {
         return e1 + " " + operation + " " + e2;
+    }
+    @Override
+    public IType typeCheck(ISymbolTable<String, IType> typeTable) throws MyException{
+        IType type1 = e1.typeCheck(typeTable);
+        IType type2 = e2.typeCheck(typeTable);
+        if(type1.equals(new BoolType())){
+            if(type2.equals(new BoolType())){
+                return new BoolType();
+            }
+            else throw new OperandIsNotBoolean();
+        }
+        else throw new OperandIsNotBoolean();
     }
 }

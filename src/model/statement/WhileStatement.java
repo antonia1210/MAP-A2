@@ -5,8 +5,10 @@ import exception.OperandIsNotBoolean;
 import exception.OperandIsNotInteger;
 import model.ProgramState;
 import model.adt.IExecutionStack;
+import model.adt.ISymbolTable;
 import model.expression.IExpression;
 import model.type.BoolType;
+import model.type.IType;
 import model.value.BoolValue;
 import model.value.IValue;
 
@@ -31,5 +33,15 @@ public record WhileStatement(IExpression condition, IStatement statement) implem
     @Override
     public String toString(){
         return "While " + condition.toString() + " " + statement.toString();
+    }
+
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType conditionType = condition.typeCheck(typeTable);
+        if(conditionType.equals(new BoolType())){
+            statement.typeCheck(typeTable.deepCopy());
+            return typeTable;
+        }
+        else throw new MyException("Condition of WHILE is not boolean");
     }
 }

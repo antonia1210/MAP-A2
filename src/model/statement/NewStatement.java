@@ -41,4 +41,14 @@ public record NewStatement(String variableName, IExpression expression) implemen
     public String toString(){
         return "new " + variableName + ", " + expression;
     }
+
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType variableType = typeTable.lookup(variableName);
+        IType expressionType = expression.typeCheck(typeTable);
+        if(variableType.equals(new RefType(expressionType))){
+            return typeTable;
+        }
+        else throw new MyException("NEW statement type mismatch");
+    }
 }

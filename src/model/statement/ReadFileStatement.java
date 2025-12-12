@@ -6,6 +6,7 @@ import model.adt.IFileTable;
 import model.adt.IHeap;
 import model.adt.ISymbolTable;
 import model.expression.IExpression;
+import model.type.IType;
 import model.type.IntType;
 import model.type.StringType;
 import model.value.IValue;
@@ -59,5 +60,19 @@ public record ReadFileStatement(IExpression expression, String variable_name) im
     public String toString(){
         return "Reading from file " + expression.toString() + " " + variable_name;
     }
-
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType expressionType = expression.typeCheck(typeTable);
+        if(!expressionType.equals(new StringType())){
+            throw new ExpressionIsNotString();
+        }
+        if(!typeTable.isDefined(variable_name)){
+            throw new VariableIsNotDefined(variable_name);
+        }
+        IType variableType = typeTable.lookup(variable_name);
+        if(!variableType.equals(new IntType())){
+            throw new OperandIsNotInteger();
+        }
+        return typeTable;
+    }
 }

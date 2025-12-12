@@ -52,7 +52,7 @@ public class Controller implements IController {
     }
     @Override
     public void oneStepForAllPrograms(List<ProgramState> programsList) throws InterruptedException{
-        //programsList.forEach(programState -> repository.logProgramStateExecution(programState));
+        programsList.forEach(programState -> repository.logProgramStateExecution(programState));
         List<Callable<ProgramState>> callList = programsList.stream().map((ProgramState p) -> (Callable<ProgramState>)(()-> p.oneStep())).collect(Collectors.toList());
         List<ProgramState> newProgramsList = executor.invokeAll(callList).stream().map(future->{try{return future.get();} catch(InterruptedException e){
             Thread.currentThread().interrupt();

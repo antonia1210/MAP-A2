@@ -6,6 +6,7 @@ import model.ProgramState;
 import model.adt.*;
 import exception.MyException;
 import model.expression.IExpression;
+import model.type.IType;
 import model.type.StringType;
 import model.value.IValue;
 import java.io.BufferedReader;
@@ -42,4 +43,12 @@ public record CloseRFileStatement(IExpression expression) implements IStatement 
         return "Close File " +  expression.toString();
     }
 
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        IType type = expression.typeCheck(typeTable);
+        if(!type.equals(new StringType())){
+            throw new ExpressionIsNotString();
+        }
+        return typeTable;
+    }
 }

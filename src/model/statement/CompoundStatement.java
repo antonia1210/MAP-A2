@@ -3,6 +3,8 @@ package model.statement;
 import model.adt.IExecutionStack;
 import model.ProgramState;
 import exception.MyException;
+import model.adt.ISymbolTable;
+import model.type.IType;
 
 public record CompoundStatement(IStatement first, IStatement second) implements IStatement {
     @Override
@@ -19,5 +21,9 @@ public record CompoundStatement(IStatement first, IStatement second) implements 
         executionStack.push(second);
         executionStack.push(first);
         return null;
+    }
+    @Override
+    public ISymbolTable<String, IType> typeCheck(ISymbolTable<String, IType> typeTable) throws MyException {
+        return second.typeCheck(first.typeCheck(typeTable));
     }
 }

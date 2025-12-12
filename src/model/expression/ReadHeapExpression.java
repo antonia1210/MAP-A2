@@ -5,6 +5,8 @@ import exception.MyException;
 import exception.VariableNotRefType;
 import model.adt.IHeap;
 import model.adt.ISymbolTable;
+import model.type.IType;
+import model.type.RefType;
 import model.value.IValue;
 import model.value.RefValue;
 
@@ -28,5 +30,14 @@ public record ReadHeapExpression(IExpression expression) implements IExpression 
     @Override
     public String toString() {
         return "Read Heap " + expression;
+    }
+    @Override
+    public IType typeCheck(ISymbolTable<String, IType> typeTable) throws MyException{
+        IType type = expression.typeCheck(typeTable);
+        if(type instanceof RefType){
+            RefType refType = (RefType)type;
+            return refType.getInner();
+        }
+        else throw new VariableNotRefType(expression.toString());
     }
 }

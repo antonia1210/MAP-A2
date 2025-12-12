@@ -4,6 +4,7 @@ import model.adt.IHeap;
 import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.VariableIsNotDefined;
+import model.type.IType;
 import model.value.IValue;
 
 public record VariableExpression(String id) implements IExpression {
@@ -21,5 +22,9 @@ public record VariableExpression(String id) implements IExpression {
     @Override
     public String toString(){
         return id;
+    }
+    @Override
+    public IType typeCheck(ISymbolTable<String, IType> typeTable) throws MyException{
+        return typeTable.lookup(id);
     }
 }

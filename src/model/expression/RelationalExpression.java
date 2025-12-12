@@ -5,6 +5,8 @@ import model.adt.ISymbolTable;
 import exception.MyException;
 import exception.OperandIsNotInteger;
 import exception.UnknownOperator;
+import model.type.BoolType;
+import model.type.IType;
 import model.type.IntType;
 import model.value.BoolValue;
 import model.value.IValue;
@@ -40,5 +42,17 @@ public record RelationalExpression(IExpression left, IExpression right, String o
     @Override
     public String toString(){
         return left.toString() + " " + operator + " " + right.toString();
+    }
+    @Override
+    public IType typeCheck(ISymbolTable<String, IType> typeTable) throws MyException{
+        IType type1 = left.typeCheck(typeTable);
+        IType type2 = right.typeCheck(typeTable);
+        if(type1.equals(new IntType())){
+            if(type2.equals(new IntType())){
+                return new BoolType();
+            }
+            else throw new OperandIsNotInteger();
+        }
+        else throw new OperandIsNotInteger();
     }
 }
