@@ -1,9 +1,9 @@
-package view;
+package XGUI;
 
-import com.sun.jdi.Value;
-import com.sun.source.tree.CompilationUnitTree;
 import controller.Controller;
+import controller.IController;
 import exception.MyException;
+import javafx.application.Application;
 import model.ProgramState;
 import model.adt.*;
 import model.expression.*;
@@ -12,8 +12,7 @@ import model.type.*;
 import model.value.*;
 import repository.Repository;
 
-import javax.swing.plaf.ComponentUI;
-import java.util.concurrent.CountDownLatch;
+import java.util.List;
 
 public class Interpreter {
     public static void main(String[] args) {
@@ -234,21 +233,17 @@ public class Interpreter {
             Repository repo9 = new Repository("log9.txt");
             repo9.addProgram(prg9);
             Controller ctr9 = new Controller(repo9);
-            TextMenu menu = new TextMenu();
-            menu.addCommand(new ExitCommand("0", "Exit"));
-            menu.addCommand(new RunExample("1", ex1.toString(), ctr1));
-            menu.addCommand(new RunExample("2", ex2.toString(), ctr2));
-            menu.addCommand(new RunExample("3", ex3.toString(), ctr3));
-            menu.addCommand(new RunExample("4", ex4.toString(), ctr4));
-            menu.addCommand(new RunExample("5", ex5.toString(), ctr5));
-            menu.addCommand(new RunExample("6", ex6.toString(), ctr6));
-            menu.addCommand(new RunExample("7", ex7.toString(), ctr7));
-            menu.addCommand(new RunExample("8", ex8.toString(), ctr8));
-            menu.addCommand(new RunExample("9", ex9.toString(), ctr9));
-            menu.show();
+            List<IStatement> programs = List.of(ex1,ex2,ex3,ex4,ex5,ex6,ex7,ex8,ex9);
+            List<IController> controllers = List.of(ctr1,ctr2,ctr3,ctr4,ctr5,ctr6,ctr7,ctr8,ctr9);
+
+            ProgramSelectionUI.programs = programs;
+            ProgramSelectionUI.controller = controllers;
+
+            Application.launch(ProgramSelectionUI.class);
+
         }
         catch(MyException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

@@ -24,6 +24,7 @@ public class Controller implements IController {
 
     public Controller(IRepository repository) {
         this.repository = repository;
+        this.executor = Executors.newFixedThreadPool(2);
     }
 
     public void setDisplayFlag(boolean displayFlag) {
@@ -93,4 +94,15 @@ public class Controller implements IController {
     public List<ProgramState> removeCompletedProgram(List<ProgramState> inProgramsList) {
         return inProgramsList.stream().filter(p->p.isNotCompleted()).collect(Collectors.toList());
     }
+
+    public IRepository getRepository() {
+        return repository;
+    }
+    public void initializeExecutor() {
+        if(executor == null || executor.isShutdown()) {
+            executor = Executors.newFixedThreadPool(2);
+        }
+    }
+
+
 }

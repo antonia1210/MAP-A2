@@ -48,4 +48,7 @@ public class ExecutionStack<T> implements IExecutionStack<T> {
         }
         return result.toString();
     }
+    public Stack<T> getAll() {
+        return stack;
+    }
 }
