@@ -80,7 +80,6 @@ public class MainUI extends Application {
 
     private void runOneStep() {
         try{
-            controller.initializeExecutor();
             List<ProgramState> programsList = controller.removeCompletedProgram(controller.getRepository().getProgramList());
             if(programsList.isEmpty()){
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Program has nothing left to execute");

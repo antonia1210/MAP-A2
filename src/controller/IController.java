@@ -11,5 +11,4 @@ public interface IController {
     List<ProgramState> removeCompletedProgram(List<ProgramState> inProgramsList);
     void oneStepForAllPrograms(List<ProgramState> programsList) throws InterruptedException;
     IRepository getRepository();
-    void initializeExecutor();
 }

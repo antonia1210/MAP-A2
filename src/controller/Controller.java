@@ -98,11 +98,5 @@ public class Controller implements IController {
     public IRepository getRepository() {
         return repository;
     }
-    public void initializeExecutor() {
-        if(executor == null || executor.isShutdown()) {
-            executor = Executors.newFixedThreadPool(2);
-        }
-    }
-
 
 }
